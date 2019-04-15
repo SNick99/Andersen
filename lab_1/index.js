@@ -29,3 +29,24 @@ let Func = function(arr) {
 
 Func([{ a: null, b: 5 }, { a: null, b: 5 }, { a: null, b: 5 }]);
 Func([{ a: null, b: 5 }, { a: null, b: 5 }, { a: 1, b: 5 }]);
+
+///parse("Привет,   как дела?") // ["дела", "как",  "Привет"]
+
+let parse = function(str) {
+  let arr = str
+    .trim()
+    .replace(/ +|\.|\?|!|,|-/g, " ")
+    .split(" ");
+
+  let arr2 = arr
+    .filter(a => {
+      return a != "";
+    })
+    .sort(function(a, b) {
+      return a.localeCompare(b);
+    });
+
+  console.log(arr2);
+};
+
+parse("Привет,  как дела?");
