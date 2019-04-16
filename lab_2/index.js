@@ -19,3 +19,50 @@ let groupBy = (arr, iter) => {
 
 console.log(groupBy(array, Math.floor));
 console.log(groupBy(array2, "length"));
+
+// 2) Есть дерево, оно разширяеться по полю children,
+//    необходимо написать функцию forEach(arr, callBackFunc)
+//    которая будет проходить по всем узлам дерева arr и на каждой итерации вызывать функцию  callBackFunc
+//    в которую будет передаваться текущий обект
+
+function forEach(arr, func) {
+  arr.map(item => {
+    func(item);
+    if (item.hasOwnProperty("children")) {
+      forEach(item.children, func);
+    }
+  });
+}
+
+let myArr = [1, 2, 3];
+let myArr2 = [
+  {
+    a: 1,
+    children: [
+      {
+        b: 3,
+      },
+      {
+        b: 4,
+      },
+      {
+        c: 5,
+        children: [
+          {
+            b: 7,
+          },
+          {
+            b: 8,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    c: 4,
+  },
+];
+
+forEach(myArr2, (item, index) => {
+  console.log(item);
+});
