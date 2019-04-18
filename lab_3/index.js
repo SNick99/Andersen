@@ -99,6 +99,39 @@ class Hamburger {
 // console.log(`Price = ${hamburger.calculatePrice()}`);
 // console.log(`Calories = ${hamburger.calculateCalories()}`);
 
+//ES5
+function Hamb(size, fill) {
+  this.size = size;
+  this.fill = fill;
+  this.price = size.tugriks + fill.tugriks;
+  this.calories = size.calories + fill.calories;
+
+  this.calculateCalories = function() {
+    return this.calories;
+  };
+  this.calculatePrice = function() {
+    return this.price;
+  };
+  this.addTopping = function(dop) {
+    this.price += dop.tugriks;
+    this.calories += dop.calories;
+  };
+}
+Hamb.BIG_SIZE = { tugriks: 100, calories: 40 };
+Hamb.SMALL_SIZE = { tugriks: 100, calories: 40 };
+Hamb.STUFFING_CHEESE = { tugriks: 10, calories: 20 };
+Hamb.STUFFING_SALAD = { tugriks: 20, calories: 5 };
+Hamb.STUFFING_FRIES = { tugriks: 15, calories: 10 };
+Hamb.TOPPING_SAUCE = { tugriks: 15, calories: 0 };
+Hamb.TOPPING_MAYO = { tugriks: 20, calories: 5 };
+
+let hamburger = new Hamb(Hamburger.BIG_SIZE, Hamburger.STUFFING_CHEESE);
+// console.log(`Price = ${hamburger.calculatePrice()}`);
+// console.log(`Calories = ${hamburger.calculateCalories()}`);
+// hamburger.addTopping(Hamburger.TOPPING_SAUCE);
+// console.log(`Price = ${hamburger.calculatePrice()}`);
+// console.log(`Calories = ${hamburger.calculateCalories()}`);
+
 //=======================================================================
 
 // 2) Вам нужно сделать конструктор сущности Студент.
@@ -184,7 +217,7 @@ student.absent();
 student.absent();
 student.absent();
 student.absent();
-console.log(student.summary());
+// console.log(student.summary());
 
 let student1 = new Student("Nick", "MEdima", "1999", [90, 10, 90, 90, 30]);
 student1.absent();
@@ -194,7 +227,7 @@ student1.present();
 student1.present();
 student1.present();
 student1.absent();
-console.log(student1.summary());
+// console.log(student1.summary());
 
 let student2 = new Student("Kostya", "MEdima", "1999", [90, 90, 90, 90, 90]);
 student2.absent();
@@ -204,7 +237,71 @@ student2.absent();
 student2.absent();
 student2.absent();
 student2.absent();
-console.log(student2.summary());
+// console.log(student2.summary());
+
+//es5
+function Stud(name, lastname, year, marks) {
+  this.name = name;
+  this.lastname = lastname;
+  this.year = year;
+  this.marks = marks;
+  this.attendance = [];
+
+  this.present = function() {
+    if (this.attendance.length <= 25) {
+      this.attendance.push(true);
+    } else {
+      console.log("больше 25");
+    }
+  };
+
+  this.absent = function() {
+    if (this.attendance.length <= 25) {
+      this.attendance.push(false);
+    } else {
+      console.log("больше 25");
+    }
+  };
+
+  this.summary = function() {
+    let sum = 0;
+    let present = 0;
+    this.marks.forEach(item => {
+      sum += item;
+    });
+
+    this.attendance.forEach(item => {
+      if (item == true) {
+        present++;
+      }
+    });
+
+    if (
+      sum / this.marks.length >= 90 &&
+      present / this.attendance.length >= 0.9
+    ) {
+      return "Ути какой молодчинка!";
+    } else if (
+      (sum / this.marks.length <= 90 &&
+        present / this.attendance.length > 0.9) ||
+      (sum / this.marks.length >= 90 && present / this.attendance.length < 0.9)
+    ) {
+      return "Норм, но можно лучше";
+    } else {
+      return "Давай по новой!";
+    }
+  };
+}
+
+let student3 = new Stud("Kostya", "MEdima", "1999", [90, 90, 90, 90, 90]);
+student3.absent();
+student3.present();
+student3.absent();
+student3.absent();
+student3.absent();
+student3.absent();
+student3.absent();
+console.log(student3.summary());
 
 // Создать конструктор массива, который будет содержать [объекты] из прошлого задания на прототипы.
 
@@ -303,7 +400,98 @@ class Arr {
 }
 
 let arr = new Arr([student, student1, student2]);
-console.log(arr.attendance("Nick"));
-console.log(arr.attendance());
-console.log(arr.performance("Nick"));
-console.log(arr.performance());
+// console.log(arr.attendance("Nick"));
+// console.log(arr.attendance());
+// console.log(arr.performance("Nick"));
+// console.log(arr.performance());
+
+//ES5
+function OurArr(mass) {
+  this.mass = mass;
+
+  this.attendance = function(name) {
+    let rating = {};
+    let mass = [];
+    if (name) {
+      this.mass.forEach(item => {
+        rating["name"] = item.name;
+        rating["attend"] = eval(item.attendance.join("+"));
+        mass.push(rating);
+        rating = {};
+      });
+      mass.sort((a, b) => b.attend - a.attend);
+      let position = 0;
+      mass.forEach((item, i) => {
+        if (item.name === name) {
+          position = i;
+        }
+      });
+      return position;
+    } else {
+      let attend = [];
+      let tmp = this.mass[0].attendance.length;
+      let tmp_mass = [];
+      let total = [];
+      for (let i = 0; i < tmp; i++) {
+        this.mass.forEach(item => {
+          tmp_mass.push(item.attendance[i]);
+        });
+        attend.push(tmp_mass);
+        tmp_mass = [];
+      }
+      attend.forEach(item => {
+        let sum = item.reduce((sum, cur) => {
+          return sum + cur;
+        });
+        total.push(sum / item.length);
+      });
+      return total;
+    }
+  };
+
+  this.performance = function(name) {
+    let rating = {};
+    let mass = [];
+    if (name) {
+      this.mass.forEach(item => {
+        rating["name"] = item.name;
+        rating["mark"] = eval(item.marks.join("+")) / item.marks.length;
+        mass.push(rating);
+        rating = {};
+      });
+      mass.sort((a, b) => b.mark - a.mark);
+      let position = 0;
+      mass.forEach((item, i) => {
+        if (item.name === name) {
+          position = i;
+        }
+      });
+      return position;
+    } else {
+      let marks = [];
+      let tmp = this.mass[0].marks.length;
+      let tmp_mass = [];
+      let total = [];
+      for (let i = 0; i < tmp; i++) {
+        this.mass.forEach(item => {
+          tmp_mass.push(item.marks[i]);
+        });
+        marks.push(tmp_mass);
+        tmp_mass = [];
+      }
+      marks.forEach(item => {
+        let sum = item.reduce((sum, cur) => {
+          return sum + cur;
+        });
+        total.push(sum / item.length);
+      });
+      return total;
+    }
+  };
+}
+
+let arr1 = new OurArr([student, student1, student2]);
+console.log(arr1.attendance("Nick"));
+console.log(arr1.attendance());
+console.log(arr1.performance("Nick"));
+console.log(arr1.performance());
