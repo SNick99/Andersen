@@ -9,11 +9,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/script"));
 
 app.get("/", function(request, response) {
-  response.sendFile(__dirname + "/index.html");
+  response.sendFile(__dirname + "/picture.html");
 });
 
 app.get("/test", function(request, response) {
   response.send({ test: "test" });
+});
+
+app.post("/picture", function(request, response) {
+  response.send(data);
 });
 
 app.listen(3000);

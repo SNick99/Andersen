@@ -76,7 +76,12 @@ function myFetch(url, conf, time) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(conf.metod, url, true);
-    xhr.send();
+    if (conf.metod === "POST") {
+      xhr.setRequestHeader("Content-Type", conf.header);
+      xhr.send(JSON.stringify(conf.body));
+    } else if (conf.metod === "GET") {
+      xhr.send();
+    }
     xhr.timeout = time;
     xhr.onreadystatechange = e => {
       if (xhr.readyState === 4) {
@@ -93,14 +98,35 @@ function myFetch(url, conf, time) {
   });
 }
 
-document.getElementById("submit").addEventListener("click", function(e) {
+// document.getElementById("submit").addEventListener("click", function(e) {
+//   e.preventDefault();
+//   myFetch("/test", { metod: "GET" }, 2000).then(
+//     res => {
+//       console.log(res);
+//     },
+//     err => {
+//       console.log(err);
+//     }
+//   );
+// });
+
+//==========================================================================
+//Написать функцию для отображения картинок после загрузки
+
+document.getElementById("submit1").addEventListener("click", function(e) {
   e.preventDefault();
-  myFetch("/test", { metod: "GET" }, 2000).then(
-    res => {
-      console.log(res);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+
+  var preview = document.querySelector("img");
+  var file = document.querySelector("input[type=file]").files[0];
+  var reader = new FileReader();
+
+  reader.onloadend = function() {
+    preview.src = reader.result;
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    preview.src = "";
+  }
 });
