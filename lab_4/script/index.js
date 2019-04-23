@@ -113,20 +113,47 @@ function myFetch(url, conf, time) {
 //==========================================================================
 //Написать функцию для отображения картинок после загрузки
 
-document.getElementById("submit1").addEventListener("click", function(e) {
-  e.preventDefault();
+// document.getElementById("submit1").addEventListener("click", function(e) {
+//   e.preventDefault();
 
-  var preview = document.querySelector("img");
-  var file = document.querySelector("input[type=file]").files[0];
-  var reader = new FileReader();
+//   var preview = document.querySelector("img");
+//   var file = document.querySelector("input[type=file]").files[0];
+//   var reader = new FileReader();
 
-  reader.onloadend = function() {
-    preview.src = reader.result;
-  };
+//   reader.onloadend = function() {
+//     preview.src = reader.result; //base-64
+//   };
 
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    preview.src = "";
+//   if (file) {
+//     reader.readAsDataURL(file);
+//   } else {
+//     preview.src = "";
+//   }
+// });
+
+//==========================================================================
+// *Написать обертку для промиса со способностью отменить его
+// MyPromise(promis, cancel)
+
+function MyPromise(prom, cancel) {
+  let time = setTimeout(() => {
+    return prom.then(res => {
+      console.log(res);
+    });
+  }, 0);
+  if (cancel) {
+    clearTimeout(time);
+    console.log("cancel");
   }
-});
+}
+
+// MyPromise(p1, false);
+
+//==========================================================================
+// Написать new MyPromise(resolve, reject);
+
+// function MyPromise2(func) {
+//   let resolve = function(res) {
+//     return res;
+//   };
+// }
