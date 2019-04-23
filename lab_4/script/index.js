@@ -113,23 +113,35 @@ function myFetch(url, conf, time) {
 //==========================================================================
 //Написать функцию для отображения картинок после загрузки
 
-// document.getElementById("submit1").addEventListener("click", function(e) {
-//   e.preventDefault();
+let arrayFile = [];
+document.getElementById("i_file").addEventListener("change", function(e) {
+  e.preventDefault();
+  let file = document.querySelector("input[type=file]").files[0];
+  if (file) arrayFile.push(file);
+});
 
-//   var preview = document.querySelector("img");
-//   var file = document.querySelector("input[type=file]").files[0];
-//   var reader = new FileReader();
+document.getElementById("submit1").addEventListener("click", e => {
+  e.preventDefault();
 
-//   reader.onloadend = function() {
-//     preview.src = reader.result; //base-64
-//   };
+  PromiseAll(arrayFile).then(res => {
+    console.log(res);
 
-//   if (file) {
-//     reader.readAsDataURL(file);
-//   } else {
-//     preview.src = "";
-//   }
-// });
+    res.forEach(item => {
+      let reader = new FileReader();
+      reader.onloadend = function() {
+        let oImg = document.createElement("img");
+        oImg.src = reader.result;
+        oImg.alt = "not found image";
+        oImg.height = 300;
+        oImg.width = 300;
+        document.getElementById("gal").appendChild(oImg);
+      };
+      console.log(item);
+      reader.readAsDataURL(item);
+    });
+    arrayFile = [];
+  });
+});
 
 //==========================================================================
 // *Написать обертку для промиса со способностью отменить его
