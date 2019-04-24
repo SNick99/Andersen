@@ -1,6 +1,6 @@
 // Observable
 function Observable() {
-  var observers = [];
+  let observers = [];
   this.sendMessage = function(name, msg) {
     observers.forEach(item => {
       item.notify(name, msg);
@@ -18,9 +18,9 @@ function Observer(behavior) {
   };
 }
 
-var observable = new Observable();
+const observable = new Observable();
 
-var UserObs = new Observer(function(name, msg) {
+const UserObs = new Observer(function(name, msg) {
   $(".messages").append(
     $(` <div class="Message">
     <div>
@@ -40,8 +40,8 @@ var UserObs = new Observer(function(name, msg) {
 observable.addObserver(UserObs);
 
 $(".btn-send").click(function() {
-  var name = $(".name").val();
-  var msg = $(".msg").val();
+  let name = $(".name").val();
+  let msg = $(".msg").val();
   observable.sendMessage(name, msg);
   $(".msg").val("");
 });
@@ -61,7 +61,7 @@ const memoizedAdd = () => {
     }
   };
 };
-// эту функцию возвратит memoizedAdd
+////// эту функцию возвратит memoizedAdd
 const newAdd = memoizedAdd();
 console.log(newAdd(1, 2, 3));
 console.log(newAdd(5, 6, 7));
