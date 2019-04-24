@@ -1,0 +1,47 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+.chat {
+  height: 500px;
+  width: 500px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+.field {
+  border-bottom: 1px solid black;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.field > input {
+  height: 30%;
+  margin: 3px;
+}
+
+.messages {
+  height: 400px;
+}
+.Message {
+  display: flex;
+  flex-direction: column;
+}
+.Message > div {
+  margin: 5px;
+}
+
+.messages .NameUser {
+  background-color: goldenrod;
+  margin: 3px;
+  padding: 2px;
+}
+
+.messages .MessageUser {
+  background-color: gainsboro;
+  margin-left: 3px;
+  margin-top: 10%;
+  border: 1px solid black;
+  border-radius: 1%;
+  padding: 3px;
+}
