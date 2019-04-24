@@ -45,3 +45,24 @@ $(".btn-send").click(function() {
   observable.sendMessage(name, msg);
   $(".msg").val("");
 });
+
+//функция с мемоизацией
+const memoizedAdd = () => {
+  let cache = {};
+  return (a, b, c) => {
+    if (`${a}${b}${c}` in cache) {
+      console.log("Fetching from cache");
+      return cache[`${a}${b}${c}`];
+    } else {
+      console.log("Calculating result");
+      let result = a + b + c;
+      cache[`${a}${b}${c}`] = result;
+      return result;
+    }
+  };
+};
+// эту функцию возвратит memoizedAdd
+const newAdd = memoizedAdd();
+console.log(newAdd(1, 2, 3));
+console.log(newAdd(5, 6, 7));
+console.log(newAdd(1, 2, 3));
